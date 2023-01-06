@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+
+    <changeSet id="OHSTB-1-1" author="solonina.m">
+        <createTable tableName="customer">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="surname" type="varchar(50)"/>
+            <column name="username" type="varchar(50)"/>
+            <column name="chat_id" type="bigint"/>
+        </createTable>
+        <addPrimaryKey tableName="customer" columnNames="id" constraintName="PK_customer_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-2" author="solonina.m">
+        <createTable tableName="user">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="username" type="varchar(15)"/>
+            <column name="password" type="varchar(50)"/>
+            <column name="role" type="varchar(10)"/>
+        </createTable>
+        <addPrimaryKey tableName="user" columnNames="id" constraintName="PK_user_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-3" author="solonina.m">
+        <createTable tableName="category">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar(15)"/>
+            <column name="parent_id" type="int"/>
+            <column name="code" type="varchar(7)"/>
+        </createTable>
+        <addPrimaryKey tableName="category" columnNames="id" constraintName="PK_category_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-4" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="category"
+                                 baseColumnNames="parent_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_category_parent_id"/>
+    </changeSet>
+    
+    <changeSet id="OHSTB-1-5" author="solonina.m">
+        <createTable tableName="item">
+            <column name="id" type="int"/>
+            <column name="name" type="varchar(25)"/>
+            <column name="category_id" type="int"/>
+            <column name="producer" type="varchar(60)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="quantity" type="int"/>
+            <column name="cost" type="currency"/>
+        </createTable>
+        <addPrimaryKey tableName="item" columnNames="id" constraintName="PK_item_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-6" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="item"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_item_category_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-7" author="solonina.m">
+        <createTable tableName="order">
+            <column name="id" type="int"/>
+            <column name="customer_id" type="int"/>
+            <column name="creation_date_time" type="datetime"/>
+            <column name="delivery" type="varchar(10)"/>
+            <column name="payment" type="varchar(10)"/>
+            <column name="status" type="varchar(10)"/>
+            <column name="closing_date_time" type="datetime"/>
+            <column name="total_sum" type="currency"/>
+        </createTable>
+        <addPrimaryKey tableName="order" columnNames="id" constraintName="PK_order_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-8" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="order"
+                                 baseColumnNames="status"
+                                 referencedTableName="status"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_order_status_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-9" author="solonina.m">
+        <createTable tableName="order_item">
+            <column name="id" type="int"/>
+            <column name="order_id" type="int"/>
+            <column name="item_id" type="int"/>
+            <column name="quantity" type="int"/>
+        </createTable>
+        <addPrimaryKey tableName="order_item" columnNames="id" constraintName="PK_order_item_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-10" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="order_item"
+                                 baseColumnNames="order_id"
+                                 referencedTableName="oreder"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_order_item_order_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-11" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="order_item"
+                                 baseColumnNames="item_id"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_order_item_item_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-12" author="solonina.m">
+        <createTable tableName="customer_info">
+            <column name="id" type="int"/>
+            <column name="customer_id" type="int"/>
+            <column name="phone_number" type="varchar(15)"/>
+            <column name="address" type="varchar(255)"/>
+            <column name="city" type="varchar(60)"/>
+        </createTable>
+        <addPrimaryKey tableName="customer_info" columnNames="id" constraintName="PK_customer_info_id"/>
+    </changeSet>
+
+    <changeSet id="OHSTB-1-13" author="solonina.m">
+        <addForeignKeyConstraint baseTableName="customer_info"
+                                 baseColumnNames="client_id"
+                                 referencedTableName="customer"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_customer_info_customer_id"/>
+    </changeSet>
+
+</databaseChangeLog>
